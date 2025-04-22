@@ -1,0 +1,50 @@
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    "*.ipynb",
+    "tests/*"
+]
+
+line-length = 119
+indent-width = 4
+
+[lint]
+select = ["E", "F", "ANN", "W", "N", "UP", "I"]
+ignore = ["W2", "N812", "N817", "ANN101", "ANN201", "ANN204"]
+
+
+fixable = ["ALL"]
+unfixable = []
+
+[format]
+quote-style = "single"
+
+indent-style = "space"
+
+skip-magic-trailing-comma = false
+
+line-ending = "auto"

@@ -1,0 +1,6 @@
+version: '3'
+services:
+  troll-bot:
+    build: .
+    container_name: troll-bot-container
+    restart: always
