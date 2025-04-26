@@ -5,14 +5,12 @@ from telethon.tl.functions.messages import GetDiscussionMessageRequest
 from telethon.tl.types import PeerChannel
 import numpy as np
 
+from core.config import settings
 from core.models_test import TelegramBotService
 
-API_ID = '27672539'
-API_HASH = '947470234723369d9425e53991bf9a8c'
-PHONE_NUMBER = '+79800038219'
+config = settings.get_model_config()
 
-
-client = TelegramClient('session_name', API_ID, API_HASH)
+client = TelegramClient('session_name', config['API_ID'], config['API_HASH'])
 
 @client.on(events.NewMessage)
 async def handler(event):
@@ -33,24 +31,24 @@ async def handler(event):
 
     if event.message.media and (hasattr(event.message.media, 'photo')):
         logger.info(f"Пост с фото: {event}")
-        model_name = 'openai'
+        model_name = 'gpt-4o'
         try:
             telegram_bot_service = TelegramBotService(
                 model_name = model_name
             )
             image_path = await event.message.download_media()
-            response = telegram_bot_service.process_image(image_path)
+            response = telegram_bot_service.send_image_request(message_text, image_path)
             logger.info(f"Ответ получен: {response}")
         except Exception as e:
             logger.critical(f'Не удалось обработать изображение: {e}', exc_info=True)
             return
     else: 
-        model_name = 'deepseek-reasoner'
+        model_name = 'gpt-4o' #'deepseek-reasoner'
         try:
             telegram_bot_service = TelegramBotService(
                 model_name = model_name
             )
-            response = telegram_bot_service.get_interpretation(message_text)
+            response = telegram_bot_service.send_text_request(message_text)
             logger.info(f"Ответ получен: {response}")
         except Exception as e:
             logger.critical(f'Не удалось создать экземпляр TelegramBotService: {e}', exc_info=True)
@@ -105,7 +103,7 @@ async def handler(event):
         logger.error(f"Ошибка при отправке комментария: {e}")
 
 async def main():
-    await client.start(PHONE_NUMBER)
+    await client.start(phone=config['PHONE_NUMBER'])
     logger.info("Бот запущен!")
     await client.run_until_disconnected()
 
