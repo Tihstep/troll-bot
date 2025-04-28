@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     def get_model_config(self, model_name: str  = '') -> dict[str, str]:
         """Возвращает конфигурацию для текущей модели."""
         config = {}
-        if model_name == 'deepseek':
+        if model_name == 'deepseek-reasoner':
             config['api_key'] = self.DEEPSEEK_API_KEY
             config['base_url'] = self.DEEPSEEK_BASE_URL
         elif model_name == 'gpt-4o':

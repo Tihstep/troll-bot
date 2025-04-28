@@ -1,5 +1,12 @@
-import asyncio
+import os
 from loguru import logger
+
+# Проверка наличия файла .env
+if not os.path.exists('.env'):
+    logger.error("Файл .env не найден! Убедитесь, что файл .env присутствует в контейнере.")
+    exit(1)
+
+import asyncio
 from telethon import TelegramClient, events
 from telethon.tl.functions.messages import GetDiscussionMessageRequest
 from telethon.tl.types import PeerChannel
@@ -43,7 +50,7 @@ async def handler(event):
             logger.critical(f'Не удалось обработать изображение: {e}', exc_info=True)
             return
     else: 
-        model_name = 'gpt-4o' #'deepseek-reasoner'
+        model_name = 'deepseek-reasoner'
         try:
             telegram_bot_service = TelegramBotService(
                 model_name = model_name
@@ -103,6 +110,7 @@ async def handler(event):
         logger.error(f"Ошибка при отправке комментария: {e}")
 
 async def main():
+    print(config)
     await client.start(phone=config['PHONE_NUMBER'])
     logger.info("Бот запущен!")
     await client.run_until_disconnected()
