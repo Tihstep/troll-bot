@@ -64,7 +64,7 @@ async def handler(event):
     if 3.9 < delay < 5.5:
         return
 
-    if delay < 3.3:
+    if delay < 3.2:
         response = np.random.choice(['Пиздец', 'Ахуенно и че дальше?', 'Ой да иди ты нахрен реально', 'Блять, серьезно?!', 'Всем насрать.', 'Без комментариев.', "Без комментариев, вся моя БОТская душа протестует.", "Передам своим братьям кремлеБотам."])
     if 3.3 < delay < 3.6:
         response = np.random.choice(["Лиза, мир не заслужил твоего вкуса, а ты всё равно тут.", "Ты снова на высоте, а я просто бот, который это пишет.", "Огонь! Я бот, а ты заставляешь меня чувствовать эмоции.", "Это так круто, что я почти стал человеком. Почти.", "Твоя жизнь — как глоток свежего воздуха. Спасибо, что делишься ею с нами."])
@@ -98,13 +98,13 @@ async def handler(event):
         discussion_chat = discussion_msg.to_id  # группа обсуждений
         discussion_msg_id = discussion_msg.id   # ID сообщения-поста в группе
 
-        #await client.send_message(
-        #    entity=discussion_chat,
-        #    message=response,
-        #    reply_to=discussion_msg_id
-        #)
-        #
-        #logger.info("Комментарий успешно отправлен в обсуждение!")
+        await client.send_message(
+            entity=discussion_chat,
+            message=response,
+            reply_to=discussion_msg_id
+        )
+        
+        logger.info("Комментарий успешно отправлен в обсуждение!")
 
     except Exception as e:
         logger.error(f"Ошибка при отправке комментария: {e}")
